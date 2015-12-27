@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Website Word Cloud</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Website Word Cloud">
+  <meta name="author" content="Giuseppe Romagnuolo">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/shower.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Website Word Cloud</h1>
+    <h2>A simple webpage text analysis</h2>
+    <p>Giuseppe Romagnuolo<br/>Coursera student</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <article data-timings="">
+    <style>
+
+.title-slide {
+  background-color: #FFF; /* #EDE0CF; ; #CA9F9D*/
+}
+em {
+  font-style:italic;
+  color:#999;
+}
+code {
+  font-size: 0.8em;
+}
+</style>
+
+<h2>What is a Word Cloud</h2>
+
+<p><em>&quot;A Word Cloud is a visual representation of text data, typically used to depict keyword metadata (tags) on websites, or to visualize free form text.&quot;</em> <a href="https://en.wikipedia.org/wiki/Tag_cloud">Wikipedia</a></p>
+
+<div style="text-align:center">
+
+        <img src="assets/img/word-cloud.png"/>
+
+</div>
+
+<p>A word cloud can be considered a first visual exploratory step into text analysis.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>The application</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The [Shiny application][app] analyses the body copy of a given webpage, produces a word cloud and a ordered list of the most relevant terms.
+The application uses the <code>tm</code> library to perform the main textual analysis as follows, for example when analysing the phrase</p>
+
+<pre><code class="r">sampleText = &quot;A tag cloud (word cloud, or weighted list in visual design).[...]&quot;
+</code></pre>
+
+<p>The analysis of the corpus will highlight that the the word <code>cloud</code> is the most frequent occurring 2 times:</p>
+
+<pre><code class="r">library(tm)
+myCorpus = Corpus(VectorSource(sampleText))
+myCorpus = tm_map(myCorpus, content_transformer(tolower)); myCorpus = tm_map(myCorpus, removePunctuation)
+myCorpus = tm_map(myCorpus, removeWords, c(stopwords(&quot;SMART&quot;), &quot;and&quot;, &quot;but&quot;, &quot;the&quot;))
+myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
+terms &lt;- sort(rowSums(as.matrix(myDTM)), decreasing = TRUE)
+head(terms, n=1)
+</code></pre>
+
+<pre><code>## cloud 
+##     2
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Filtering options</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>When trying to analyse frequent words in a text it is important that some common words like <em>and</em>, <em>but</em>, <em>the</em> are not considered in the analysis as those are generally always in abundance and not relevant to the topic.</p>
+
+<p>The application automatically excludes those words however there may be other words that cannot be predicted beforehands which are common in the body copy of a webpage but still have little relevance within the topic at hand. (For example a page with multiple social links might present the word <em>&quot;share&quot;</em>  throughout the copy but hold no real significance to the analysis performed. )</p>
+
+<p>The application provides custom filtering options in order to render more flexible the analysis as follows:</p>
+
+<ol>
+<li>Optional field for the exclusion of common words</li>
+<li>Specification of frequency range (upper and lower bound)</li>
+<li>Max number of words to be analysed</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Conclusion</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This application has allowed me to experiment with <a href="http://shiny.rstudio.com/">Shiny</a> which is a simple but powerful framework that allows to use R programming language to run on a Web Server. A vast array of widgets and plotting options makes this framework very appealing to Data Scientists.</p>
+
+<h3>Source</h3>
+
+<p><a href="https://github.com/gromag/wordcloud">https://github.com/gromag/wordcloud</a></p>
+
+<h3>Licence</h3>
+
+<p>The MIT License (MIT)</p>
+
+<h3>Disclaimer</h3>
+
+<p>This analysis was done as a course project for the &#39;Developing Data Products&#39; course which is part of the <a href="https://www.coursera.org/specialization/jhudatascience/1">Data Science Specialisation</a> provided by <a href="http://www.jhsph.edu/">Johns Hopkins Bloomberg School of Public Health</a> via <a href="https://www.coursera.org/">Coursera</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The application'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Filtering options'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Conclusion'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
