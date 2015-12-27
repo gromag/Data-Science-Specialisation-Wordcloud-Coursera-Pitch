@@ -88,8 +88,8 @@ This application has allowed me to experiment with [Shiny][shiny] which is a sim
 [shiny]: http://shiny.rstudio.com/
 ### Source
 
-[https://github.com/gromag/wordcloud][source]
-
+App: [https://github.com/gromag/wordcloud][source]
+Slides: [https://github.com/gromag/wordcloud-pitch/tree/gh-pages][slides]
 ### Licence
 
 The MIT License (MIT)
@@ -103,4 +103,4 @@ This analysis was done as a course project for the 'Developing Data Products' co
 [jhsph]: http://www.jhsph.edu/
 [co]: https://www.coursera.org/
 [source]: https://github.com/gromag/wordcloud
-
+[slides]: https://github.com/gromag/wordcloud-pitch/tree/gh-pages
