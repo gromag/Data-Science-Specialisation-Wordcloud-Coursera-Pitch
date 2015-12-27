@@ -2,9 +2,11 @@
 
 ### Description
 
-These Slidify slides is a to support and pitch for a [Shiny application][shiny].
+These [Slidify slides][slides-preview]  is a to support and pitch for a [Shiny application][shiny].
 
 [shiny]: https://gromag.shinyapps.io/wordcloud
+[slides-preview]: http://gromag.github.io/wordcloud-pitch
+
 
 The application does a simple text analyses of the most frequent words of a webpage, shows a word cloud and a tabular list of those words.
 
